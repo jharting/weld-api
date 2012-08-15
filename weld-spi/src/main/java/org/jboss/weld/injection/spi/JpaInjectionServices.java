@@ -33,35 +33,19 @@ import org.jboss.weld.bootstrap.api.Service;
  */
 public interface JpaInjectionServices extends Service
 {
-	
+
    /**
-    * Resolve the value for the given @PersistenceContext injection point
-    * 
-    * @param injectionPoint
-    *           the injection point metadata
-    * @return an instance of the entity manager
-    * @throws IllegalArgumentException
-    *            if the injection point is not annotated with 
-    *            @PersistenceContext, or, if the injection point is a method 
-    *            that doesn't follow JavaBean conventions
-    * @throws IllegalStateException
-    *            if no suitable persistence units can be resolved for injection
+    * Used at bootstrap to register resource injection points found in the deployment.
     */
-   public EntityManager resolvePersistenceContext(InjectionPoint injectionPoint);
-   
+    ResourceIdentifier<EntityManager> registerPersistenceContextInjectionPoint(InjectionPoint injectionPoint);
+
    /**
-    * Resolve the value for the given @PersistenceUnit injection point
-    * 
-    * @param injectionPoint
-    *           the injection point metadata
-    * @return an instance of the entity manager
-    * @throws IllegalArgumentException
-    *            if the injection point is not annotated with 
-    *            @PersistenceUnit, or, if the injection point is a method 
-    *            that doesn't follow JavaBean conventions
-    * @throws IllegalStateException
-    *            if no suitable persistence units can be resolved for injection
+    * Used at bootstrap to register resource injection points found in the deployment.
     */
-   public EntityManagerFactory resolvePersistenceUnit(InjectionPoint injectionPoint);
-   
+   ResourceIdentifier<EntityManagerFactory> registerPersistenceUnitInjectionPoint(InjectionPoint injectionPoint);
+
+   /**
+    * Used at runtime to obtain an instance of a registered resource
+    */
+   <T> T resolveJpaResource(ResourceIdentifier<T> identifier);
 }

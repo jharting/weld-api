@@ -29,35 +29,20 @@ import org.jboss.weld.bootstrap.api.Service;
  * @author Pete Muir
  * 
  */
-public interface ResourceInjectionServices extends Service
-{
-   
-   /**
-    * Resolve the value for the given @Resource injection point
-    * 
-    * @param injectionPoint
-    *           the injection point metadata
-    * @return an instance of the resource
-    * @throws IllegalArgumentException
-    *            if the injection point is not annotated with @Resource, or, if
-    *            the injection point is a method that doesn't follow JavaBean
-    *            conventions
-    * @throws IllegalStateException
-    *            if no resource can be resolved for injection
-    */
-   public Object resolveResource(InjectionPoint injectionPoint);
-   
-   /**
-    * Resolve the value for the given JNDI name and mapped name
-    * 
-    * @param injectionPoint
-    *           the injection point metadata
-    * @return an instance of the resource
-    * @throws IllegalStateException
-    *            if no resource can be resolved for injection
-    * @throws IllegalArgumentException
-    *            if both jndiName and mappedName are null
-    */
-   public Object resolveResource(String jndiName, String mappedName);
-   
+public interface ResourceInjectionServices extends Service {
+
+    /**
+     * Used at bootstrap to register resource injection points found in the deployment.
+     */
+    <T> ResourceIdentifier<T> registerResourceInjectionPoint(InjectionPoint injectionPoint);
+
+    /**
+     * Used at bootstrap to register resource injection points found in the deployment.
+     */
+    <T> ResourceIdentifier<T> registerResourceInjectionPoint(String jndiName, String mappedName);
+
+    /**
+     * Used at runtime to obtain an instance of a registered resource
+     */
+    <T> T resolveResource(ResourceIdentifier<T> identifier);
 }

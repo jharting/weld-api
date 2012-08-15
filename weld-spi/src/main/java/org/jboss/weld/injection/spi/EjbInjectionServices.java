@@ -32,19 +32,14 @@ import org.jboss.weld.bootstrap.api.Service;
  */
 public interface EjbInjectionServices extends Service
 {
-   
    /**
-    * Resolve the value for the given @EJB injection point
-    * 
-    * @param injectionPoint
-    *           the injection point metadata
-    * @return an instance of the EJB
-    * @throws IllegalArgumentException
-    *            if the injection point is not annotated with @EJB, or, if the
-    *            injection point is a method that doesn't follow JavaBean
-    *            conventions
-   
+    * Used at bootstrap to register resource injection points found in the deployment.
     */
-   public Object resolveEjb(InjectionPoint injectionPoint);
+   <T> ResourceIdentifier<T> registerEjbInjectionPoint(InjectionPoint injectionPoint);
+
+   /**
+    * Used at runtime to obtain an instance of a registered resource
+    */
+   <T> T resolveEjb(ResourceIdentifier<T> identifier);
    
 }
