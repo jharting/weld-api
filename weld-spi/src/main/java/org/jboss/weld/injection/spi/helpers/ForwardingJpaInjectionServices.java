@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.jboss.weld.injection.spi.JpaInjectionServices;
+import org.jboss.weld.injection.spi.ResourceReferenceFactory;
 
 /**
  * An implementation of {@link JpaInjectionServices} which forwards all its method calls
@@ -37,14 +38,14 @@ public abstract class ForwardingJpaInjectionServices implements JpaInjectionServ
    
    protected abstract JpaInjectionServices delegate();
    
-   public EntityManager resolvePersistenceContext(InjectionPoint injectionPoint)
+   public ResourceReferenceFactory<EntityManager> registerPersistenceContextInjectionPoint(InjectionPoint injectionPoint)
    {
-      return delegate().resolvePersistenceContext(injectionPoint);
+      return delegate().registerPersistenceContextInjectionPoint(injectionPoint);
    }
    
-   public EntityManagerFactory resolvePersistenceUnit(InjectionPoint injectionPoint)
+   public ResourceReferenceFactory<EntityManagerFactory> registerPersistenceUnitInjectionPoint(InjectionPoint injectionPoint)
    {
-      return delegate().resolvePersistenceUnit(injectionPoint);
+      return delegate().registerPersistenceUnitInjectionPoint(injectionPoint);
    }
    
    @Override

@@ -27,13 +27,15 @@ import org.jboss.weld.bootstrap.api.Service;
  * {@link ResourceInjectionServices} is per-module service.
  * 
  * @author Pete Muir
+ * @author Jozef Hartinger
  * 
  */
 public interface ResourceInjectionServices extends Service
 {
-   
+
    /**
-    * Resolve the value for the given @Resource injection point
+    * Register a resource injection point. The implementation validates the injection point. If the validation passes, an instance of
+    * {@link ResourceReferenceFactory} is returned which may be used at runtime for creating instances of the resource.
     * 
     * @param injectionPoint
     *           the injection point metadata
@@ -43,21 +45,23 @@ public interface ResourceInjectionServices extends Service
     *            the injection point is a method that doesn't follow JavaBean
     *            conventions
     * @throws IllegalStateException
-    *            if no resource can be resolved for injection
+    *            if no resource can be resolved
     */
-   public Object resolveResource(InjectionPoint injectionPoint);
-   
+   public ResourceReferenceFactory<Object> registerResourceInjectionPoint(InjectionPoint injectionPoint);
+
    /**
-    * Resolve the value for the given JNDI name and mapped name
+    * Register a resource injection point with the given JNDI name and mapped name. The implementation validates the injection point.
+    * If the validation passes, an instance of {@link ResourceReferenceFactory} is returned which may be used at runtime for creating
+    * instances of the resource.
     * 
     * @param injectionPoint
     *           the injection point metadata
     * @return an instance of the resource
     * @throws IllegalStateException
-    *            if no resource can be resolved for injection
+    *            if no resource can be resolved
     * @throws IllegalArgumentException
     *            if both jndiName and mappedName are null
     */
-   public Object resolveResource(String jndiName, String mappedName);
-   
+   public ResourceReferenceFactory<Object> registerResourceInjectionPoint(String jndiName, String mappedName);
+
 }
